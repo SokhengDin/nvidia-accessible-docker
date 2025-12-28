@@ -1,0 +1,11 @@
+numpy<2.0
+pandas
+matplotlib
+scipy
+scikit-learn
+jupyter
+jupyterlab
+torch==2.5.1
+torchvision==0.20.1
+torchaudio==2.5.1
+cupy-cuda12x
