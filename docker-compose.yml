@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  cuda-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cuda-dev:12.1-python3.11
+    container_name: nvidia-cuda-dev
+
+    # Enable GPU access
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu, compute, utility]
+
+    # Environment variables
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+    # Volume mounts
+    volumes:
+      # Mount project source code
+      - ./workspace:/workspace
+      # Mount for C++ projects
+      - ./src:/workspace/src
+      - ./build:/workspace/build
+      # Mount for Python scripts
+      - ./scripts:/workspace/scripts
+      # Mount for data
+      - ./data:/workspace/data
+      # Mount for notebooks
+      - ./notebooks:/workspace/notebooks
+      # Preserve bash history
+      - ./bash_history:/root/.bash_history
+
+    # Ports
+    ports:
+      - "8888:8888"  # Jupyter Lab
+      - "6006:6006"  # TensorBoard
+
+    # Keep container running
+    stdin_open: true
+    tty: true
+
+    # Default command
+    command: /bin/bash
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Shared memory size (important for CUDA and PyTorch)
+    shm_size: '16gb'
+
+    # Working directory
+    working_dir: /workspace
