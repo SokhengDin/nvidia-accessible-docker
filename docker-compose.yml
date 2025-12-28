@@ -38,10 +38,11 @@ services:
       # Preserve bash history
       - ./bash_history:/root/.bash_history
 
-    # Ports
-    ports:
-      - "8888:8888"  # Jupyter Lab
-      - "6006:6006"  # TensorBoard
+    # Expose ports internally only (no host mapping)
+    expose:
+      - "22"      # SSH
+      - "8888"    # Jupyter Lab
+      - "6006"    # TensorBoard
 
     # Keep container running
     stdin_open: true

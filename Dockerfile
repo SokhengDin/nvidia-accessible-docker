@@ -22,7 +22,15 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libomp-dev \
     software-properties-common \
+    openssh-server \
+    sudo \
     && rm -rf /var/lib/apt/lists/*
+
+# Configure SSH
+RUN mkdir /var/run/sshd && \
+    echo 'root:cuda' | chpasswd && \
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 # Install Python 3.11
 RUN add-apt-repository ppa:deadsnakes/ppa && \
@@ -56,8 +64,8 @@ RUN pip install --no-cache-dir \
 # Create workspace directory
 WORKDIR /workspace
 
-# Expose Jupyter port
-EXPOSE 8888
+# Expose Jupyter and SSH ports
+EXPOSE 8888 22
 
-# Default command
-CMD ["/bin/bash"]
+# Start SSH service and keep container running
+CMD service ssh start && /bin/bash
