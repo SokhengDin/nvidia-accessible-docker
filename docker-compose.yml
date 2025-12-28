@@ -48,8 +48,8 @@ services:
     stdin_open: true
     tty: true
 
-    # Default command
-    command: /bin/bash
+    # Default command - ensure SSH service starts
+    command: /bin/bash -c "service ssh start && tail -f /dev/null"
 
     # Restart policy
     restart: unless-stopped

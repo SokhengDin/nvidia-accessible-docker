@@ -72,4 +72,4 @@ ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
 EXPOSE 8888 22
 
 # Start SSH service and keep container running
-CMD service ssh start && /bin/bash
+CMD service ssh start && tail -f /dev/null
