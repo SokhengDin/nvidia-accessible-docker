@@ -64,6 +64,10 @@ RUN pip install --no-cache-dir \
 # Create workspace directory
 WORKDIR /workspace
 
+# NVCC
+ENV PATH=/usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
+
 # Expose Jupyter and SSH ports
 EXPOSE 8888 22
 
