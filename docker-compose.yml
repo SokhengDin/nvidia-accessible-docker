@@ -58,3 +58,12 @@ services:
 
     # Working directory
     working_dir: /workspace
+
+    # Mount network
+    networks:
+      - eroxii_network
+
+
+networks:
+  eroxii_network:
+    external: true
